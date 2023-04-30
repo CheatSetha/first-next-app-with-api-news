@@ -2,8 +2,9 @@ import React from "react"
 import Card from "../components/Card"
 import { data } from "autoprefixer"
 import { Prosto_One } from "next/font/google"
+import Link from "next/link"
 
-const News = ({ posts }) => {
+const news = ({ posts }) => {
 	const news = posts?.articles || []
 	console.log(news)
 	const handleClickUrl = (url) => {
@@ -11,6 +12,7 @@ const News = ({ posts }) => {
 	}
 	return (
 		<div className='flex justify-center flex-wrap gap-4'>
+			<Link href="/" className="w-10/12 mx-auto py-10 rounded-full mt-5  bg-pink-900 text-white text-center">back home</Link>
 			{news.length > 0 &&
 				news.map((item, index) => (
 					<Card
@@ -39,4 +41,4 @@ export async function getStaticProps() {
 	}
 }
 
-export default News
+export default news

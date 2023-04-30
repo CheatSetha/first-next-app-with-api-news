@@ -1,8 +1,9 @@
 import React from 'react'
+import Link from 'next/link'
 
 const FetchData = () => {
   return (
-    <div>FetchData</div>
+    <div>Fetch <Link href="/news">News data</Link></div>
   )
 }
 

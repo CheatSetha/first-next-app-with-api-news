@@ -1,15 +1,16 @@
-import Image from 'next/image'
+
+import MainHome from '@/components/MainHome'
 import { Inter } from 'next/font/google'
-import FetchData from '../components/FetchData'
-import NavBar from '../components/NavBar'
+
+
 
 const inter = Inter({ subsets: ['latin'] })
-
 export default function Home() {
   return (
-    <div> 
-      <NavBar />
-      <FetchData />
+    <div className='w-11/12 mx-auto'> 
+
+      <MainHome />
+
 
     </div>
  
