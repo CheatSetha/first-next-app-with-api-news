@@ -1,8 +1,37 @@
+import Link from "next/link"
 import React, { useEffect, useState } from "react"
 
 const Admin = (users) => {
+	const [show, setShow] = useState(false)
+	const toggle = () => {
+		setShow(!show)
+		console.log("clicked bro");
+	}
 	const usersList = users.users.list
+	const pagination = users.users.navigatepageNums
+	console.log(pagination);
+
 	console.log(users.users)
+	//do delete function here
+	const deleteUserHandler = async (id) => {
+		try {
+			const response = await fetch(
+				`http://localhost:8080/api/v1/users/${id}`,
+				{
+					method: "DELETE",
+				}
+			)
+
+			const data = await response.json()
+
+			console.log("User deleted successfully:", data)
+		} catch (error) {
+			console.error("Error deleting user:", error)
+		}
+	}
+
+	
+	
 	return (
 		<div>
 
@@ -15,6 +44,7 @@ const Admin = (users) => {
 					>
 						<div class='flex justify-end px-4 pt-4'>
 							<button
+							onClick={toggle}
 								id='dropdownButton'
 								data-dropdown-toggle='dropdown'
 								class='inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5'
@@ -34,7 +64,7 @@ const Admin = (users) => {
 							{/* <!-- Dropdown menu --> */}
 							<div
 								id='dropdown'
-								class='z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700'
+								class= { show?'z-10 absolute mt-10 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700':'z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700'}
 							>
 								<ul
 									class='py-2'
@@ -43,26 +73,22 @@ const Admin = (users) => {
 									<li>
 										<a
 											href='#'
-											class='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
+											class='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-sky-500 dark:text-gray-200 dark:hover:text-white'
 										>
 											Edit
 										</a>
 									</li>
-									<li>
-										<a
-											href='#'
-											class='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
-										>
-											Export Data
-										</a>
-									</li>
-									<li>
-										<a
-											href='#'
-											class='block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
-										>
+									
+									<li 
+										class='block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-red-700 dark:text-gray-200 dark:hover:text-white'
+									onClick={()=> deleteUserHandler(user.id)}
+									>
+									
+										
+											
+										
 											Delete
-										</a>
+										
 									</li>
 								</ul>
 							</div>
@@ -97,6 +123,33 @@ const Admin = (users) => {
 					</div>
 				))}
                 </div>
+				<div className="w-20 fixed bottom-10 right-0 cursor-pointer">
+					<Link href="/addnewuser"> <img src="https://cdn-icons-png.flaticon.com/512/1771/1771013.png" alt="" /></Link>
+				</div>
+				{
+
+				}
+				
+<div aria-label="Page navigation example" className="flex justify-center my-3 ">
+  <ul class="inline-flex -space-x-px">
+    <li>
+      <a href="#" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+    </li>
+	{
+		pagination && pagination.map((item,index)=>(
+			<li key={index}>
+			<a href="#" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{item}</a>
+		  </li>
+		))
+	}
+   
+  
+    <li>
+      <a href="#" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+    </li>
+  </ul>
+</div>
+
 		</div>
 	)
 }
